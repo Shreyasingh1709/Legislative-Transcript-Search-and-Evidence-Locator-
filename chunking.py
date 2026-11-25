@@ -1,7 +1,10 @@
-"""Create speaker-attributed transcript chunks using BGE-M3 token counts."""
+"""Create provenance-preserving transcript chunks using BGE-M3 token counts."""
 
+import argparse
 import json
+import os
 import re
+import tempfile
 from bisect import bisect_right
 from pathlib import Path
 from typing import Any
@@ -19,21 +22,20 @@ BASE_DIR = Path(__file__).resolve().parent
 
 
 def load_records(input_path: Path) -> list[dict[str, Any]]:
-    """Load cleaned records from a JSON array or an object containing records."""
+    """Load adapted records from a JSON array or an object containing records."""
     with input_path.open("r", encoding="utf-8") as input_file:
         payload = json.load(input_file)
 
     if isinstance(payload, dict):
         payload = payload.get("records")
     if not isinstance(payload, list):
-        raise ValueError("cleaned_data.json must contain a JSON array of records.")
+        raise ValueError("Input must contain a JSON array of transcript records.")
     if not payload:
-        raise ValueError("cleaned_data.json contains no transcript records.")
+        raise ValueError("Input contains no transcript records.")
     if not all(isinstance(record, dict) for record in payload):
         raise ValueError("Every transcript record must be a JSON object.")
 
-    # DataFrame normalization makes missing values consistent before validation.
-    return pd.DataFrame.from_records(payload).to_dict(orient="records")
+    return [dict(record) for record in payload]
 
 
 def _token_windows(
@@ -71,6 +73,11 @@ def _token_windows(
             r"[.!?\u0964]+(?:[\"'\u2019\u201d)]*)?(?=\s|$)", text
         )
     }
+    paragraph_ends = {
+        bisect_right(token_ends, match.end())
+        for match in re.finditer(r"\n[ \t]*\n(?:[ \t]*\n)*", text)
+    }
+    sentence_ends.update(paragraph_ends)
 
     windows: list[tuple[int, int, list[tuple[int, int]]]] = []
     start = 0
@@ -120,7 +127,7 @@ def chunk_text(
     overlap_tokens: int = OVERLAP_TOKENS,
     min_tokens: int = MIN_TOKENS,
 ) -> list[tuple[str, int]]:
-    """Split one speaker turn into token-limited text chunks and token counts."""
+    """Split one source record into token-limited text chunks and token counts."""
     if not isinstance(text, str):
         raise TypeError("Transcript text must be a string.")
     if not text.strip():
@@ -151,20 +158,24 @@ def chunk_records(
     records: list[dict[str, Any]],
     tokenizer: Any,
 ) -> list[dict[str, Any]]:
-    """Chunk each speaker turn independently and retain its scalar metadata."""
+    """Chunk each source record independently and retain its metadata."""
     chunks: list[dict[str, Any]] = []
     seen_record_ids: set[str] = set()
+    text_fields = {"text", "retrieval_text", "original_text", "cleaned_text"}
 
     for row_number, record in enumerate(records, start=1):
+        if not isinstance(record, dict):
+            raise ValueError(f"Record {row_number} must be a JSON object.")
         text = record.get("text")
         if not isinstance(text, str) or not text.strip():
-            continue
+            raise ValueError(
+                f"Record {row_number} has missing or empty transcript text."
+            )
 
         speaker = record.get("speaker")
         if not isinstance(speaker, str) or not speaker.strip():
             raise ValueError(
-                f"Record {row_number} has transcript text but no speaker; "
-                "refusing to create unattributed evidence."
+                f"Record {row_number} has transcript text but no speaker field."
             )
 
         record_id = str(record.get("record_id") or f"record_{row_number:06d}")
@@ -175,8 +186,7 @@ def chunk_records(
         metadata = {
             key: value
             for key, value in record.items()
-            if key != "text"
-            and isinstance(value, (str, int, float, bool))
+            if key not in text_fields
             and not (isinstance(value, float) and pd.isna(value))
         }
         metadata["record_id"] = record_id
@@ -200,14 +210,211 @@ def chunk_records(
     return chunks
 
 
+def validate_chunk_output(
+    records: list[dict[str, Any]],
+    chunks: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Validate chunk limits, page provenance, IDs, and parent traceability."""
+    errors = []
+    records_by_id = {}
+    for record in records:
+        record_id = record.get("record_id")
+        if not isinstance(record_id, str) or not record_id:
+            errors.append("Source record has a missing or invalid record_id.")
+        elif record_id in records_by_id:
+            errors.append(f"Duplicate source record_id: {record_id}")
+        else:
+            records_by_id[record_id] = record
+        for field in ("document_id", "source_file", "date", "speaker"):
+            value = record.get(field)
+            if not isinstance(value, str) or not value.strip():
+                errors.append(f"Source record {record_id} is missing {field}.")
+        page_number = record.get("pdf_page")
+        if (
+            not isinstance(page_number, int)
+            or isinstance(page_number, bool)
+            or page_number < 1
+        ):
+            errors.append(f"Source record {record_id} has invalid pdf_page.")
+        if record.get("attribution_status") != "unverified":
+            errors.append(
+                f"Source record {record_id} must have unverified attribution."
+            )
+
+    chunk_ids = [chunk.get("chunk_id") for chunk in chunks]
+    if any(not isinstance(chunk_id, str) or not chunk_id for chunk_id in chunk_ids):
+        errors.append("One or more chunks have a missing or invalid chunk_id.")
+    duplicate_chunk_ids = sorted(
+        chunk_id
+        for chunk_id in set(chunk_ids)
+        if chunk_ids.count(chunk_id) > 1
+    )
+    chunks_by_record: dict[str, list[dict[str, Any]]] = {}
+    for chunk in chunks:
+        record_id = chunk.get("record_id")
+        if not isinstance(record_id, str) or not record_id:
+            errors.append(f"Chunk {chunk.get('chunk_id')} has an invalid record_id.")
+            continue
+        chunks_by_record.setdefault(record_id, []).append(chunk)
+        source_record = records_by_id.get(record_id)
+        if source_record is None:
+            errors.append(f"Chunk {chunk.get('chunk_id')} has no source record.")
+            continue
+        if not isinstance(chunk.get("text"), str) or not chunk["text"].strip():
+            errors.append(f"Chunk {chunk.get('chunk_id')} has empty text.")
+        else:
+            source_text = source_record.get("text")
+            if not isinstance(source_text, str) or chunk["text"] not in source_text:
+                errors.append(
+                    f"Chunk {chunk.get('chunk_id')} text is not traceable to its source."
+                )
+        token_count = chunk.get("token_count")
+        if not isinstance(token_count, int) or isinstance(token_count, bool) or token_count <= 0:
+            errors.append(f"Chunk {chunk.get('chunk_id')} has invalid token_count.")
+        elif token_count > MAX_TOKENS:
+            errors.append(
+                f"Chunk {chunk.get('chunk_id')} has {token_count} tokens "
+                f"(maximum {MAX_TOKENS})."
+            )
+        for key, value in source_record.items():
+            if key in {"text", "retrieval_text", "original_text", "cleaned_text"}:
+                continue
+            if chunk.get(key) != value:
+                errors.append(
+                    f"Chunk {chunk.get('chunk_id')} lost or changed metadata field {key}."
+                )
+
+    records_without_chunks = sorted(
+        record_id for record_id in records_by_id if record_id not in chunks_by_record
+    )
+    if records_without_chunks:
+        errors.append(
+            f"{len(records_without_chunks)} source records have no chunks."
+        )
+
+    counts_by_document: dict[str, dict[str, int]] = {}
+    for record in records:
+        document_id = record.get("document_id", "unknown")
+        counts_by_document.setdefault(document_id, {"records": 0, "chunks": 0})
+        counts_by_document[document_id]["records"] += 1
+    for chunk in chunks:
+        document_id = chunk.get("document_id", "unknown")
+        counts_by_document.setdefault(document_id, {"records": 0, "chunks": 0})
+        counts_by_document[document_id]["chunks"] += 1
+
+    token_counts = [
+        chunk["token_count"]
+        for chunk in chunks
+        if isinstance(chunk.get("token_count"), int)
+        and not isinstance(chunk.get("token_count"), bool)
+    ]
+    return {
+        "input_record_count": len(records),
+        "records_with_chunks": len(records_by_id) - len(records_without_chunks),
+        "records_without_chunks": records_without_chunks,
+        "chunk_count": len(chunks),
+        "unique_record_ids": len(records_by_id) == len(records),
+        "unique_chunk_ids": len(chunk_ids) == len(set(chunk_ids)),
+        "duplicate_chunk_ids": duplicate_chunk_ids,
+        "empty_chunk_count": sum(
+            not isinstance(chunk.get("text"), str) or not chunk["text"].strip()
+            for chunk in chunks
+        ),
+        "max_tokens_per_chunk": max(token_counts, default=0),
+        "chunks_over_max_tokens": sum(
+            isinstance(chunk.get("token_count"), int)
+            and not isinstance(chunk.get("token_count"), bool)
+            and chunk["token_count"] > MAX_TOKENS
+            for chunk in chunks
+        ),
+        "counts_by_document": counts_by_document,
+        "validation_errors": errors,
+    }
+
+
+def _write_json_atomic(path: Path, payload: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary_path = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            newline="\n",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as output_file:
+            temporary_path = Path(output_file.name)
+            json.dump(payload, output_file, ensure_ascii=False, indent=2)
+            output_file.write("\n")
+        os.replace(temporary_path, path)
+    finally:
+        if temporary_path is not None and temporary_path.exists():
+            temporary_path.unlink()
+
+
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Chunk adapted transcript records.")
+    parser.add_argument(
+        "--input",
+        type=Path,
+        default=BASE_DIR / "transcript_records.json",
+        help="Adapted transcript records JSON",
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=BASE_DIR / "chunks.json",
+        help="Chunk output JSON",
+    )
+    parser.add_argument(
+        "--report",
+        type=Path,
+        default=BASE_DIR / "chunking_report.json",
+        help="Chunk validation report JSON",
+    )
+    args = parser.parse_args()
+    input_path = args.input.resolve()
+    output_path = args.output.resolve()
+    report_path = args.report.resolve()
+    if input_path in {output_path, report_path} or output_path == report_path:
+        parser.error("Input, chunk output, and report paths must be different.")
+
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, use_fast=True)
-    records = load_records(BASE_DIR / "cleaned_data.json")
+    records = load_records(input_path)
     chunks = chunk_records(records, tokenizer)
-    output_path = BASE_DIR / "chunks.json"
-    with output_path.open("w", encoding="utf-8") as output_file:
-        json.dump(chunks, output_file, ensure_ascii=False, indent=2)
-    print(f"Created {len(chunks)} attributed chunks at {output_path}")
+    report = validate_chunk_output(records, chunks)
+    report["model_tokenizer"] = MODEL_NAME
+    report["target_tokens"] = TARGET_TOKENS
+    report["maximum_tokens"] = MAX_TOKENS
+    report["overlap_tokens"] = OVERLAP_TOKENS
+    report["minimum_tokens"] = MIN_TOKENS
+    report["source_path"] = str(input_path)
+    report["chunk_output_path"] = str(output_path)
+    report["validation_status"] = (
+        "passed" if not report["validation_errors"] else "failed"
+    )
+    _write_json_atomic(report_path, report)
+    if report["validation_errors"]:
+        print("Chunk validation: FAILED")
+        for error in report["validation_errors"]:
+            print(f"- {error}")
+        raise SystemExit(2)
+
+    _write_json_atomic(output_path, chunks)
+    print("Chunk validation: PASSED")
+    print(f"Source records considered: {report['input_record_count']}")
+    print(f"Records with chunks: {report['records_with_chunks']}")
+    print(f"Chunks created: {report['chunk_count']}")
+    print(f"Maximum chunk tokens: {report['max_tokens_per_chunk']}")
+    print(f"Chunks over {MAX_TOKENS} tokens: {report['chunks_over_max_tokens']}")
+    print(f"Unique chunk IDs: {report['unique_chunk_ids']}")
+    print(f"Empty chunks: {report['empty_chunk_count']}")
+    print(f"Counts by document: {report['counts_by_document']}")
+    print("Errors: none")
+    print(f"Chunks: {output_path}")
+    print(f"Report: {report_path}")
 
 
 if __name__ == "__main__":

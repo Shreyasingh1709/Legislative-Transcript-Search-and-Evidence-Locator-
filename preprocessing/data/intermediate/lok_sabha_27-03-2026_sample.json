@@ -1,0 +1,46 @@
+{
+  "dataset_name": "Lok Sabha Debate - 27 March 2026",
+  "source_file": "lsd_18_VII_27-03-2026_original_corrected.pdf",
+  "date": "2026-03-27",
+  "document_type": "Lok Sabha Debate",
+  "extraction_method": "pdfplumber",
+  "ocr_performed": false,
+  "total_pdf_pages": 1300,
+  "extracted_page_count": 3,
+  "selected_pdf_pages": [1, 650, 1300],
+  "layout_pages": [],
+  "pages": [
+    {
+      "pdf_page": 1,
+      "text": "27.03.2026 1\nEighteenth Series, Vol. XV No. 25 Friday, March 27, 2026\nChaitra 6, 1948 (Saka)\nLOK SABHA DEBATES\n(Original Version)\nSeventh Session\n(Eighteenth Lok Sabha)\n(Vol. XV contains Nos. 21 to 31)\nLOK SABHA SECRETARIAT\nNEW DELHI",
+      "is_empty": false,
+      "extraction_status": "ok",
+      "extraction_mode": "default"
+    }
+    ,
+    {
+      "pdf_page": 650,
+      "text": "27.03.2026 648\nThe continuation and expansion of the scheme is considered from time\nto time based on its evaluation, emerging healthcare requirements, and\navailability of resources.\nThe details of funds released to the 47 approved Schools of Nursing are\ngiven in the enclosed Statement.\nSTATEMENT\nDetails of Upgradation of School of Nursing into College of Nursing under Central\nSector Scheme of Development of Nursing Services 2020-21 to 2025-26:\nSr State Name of Institute Fund Year UC\nNo. Released (Rs. Received\nin crore) (Rs. in\ncrore)\n1. Manipur 1. GNM Training School Churachandpur, 2.25 2020-21 0\nManipur\n2. GNM training school, thoubal, Manipur 2.19 2022-23 0\n2. Rajasthan 3. SON, Mahatma Gandhi Hospital, 4.18 2018-19 3.24\nJodhpur.\n4. SON, PBM Hospital Bikaner, 1.78 2018-19 3.60\n3. 5. Principal GNM School, Udhampur, 3.75 2019-20 0\n6. Principal GNM School, Pulwama, 3.75 2019-20 0\n7. Principal GNM School, Kulgam, 3.75 2020-21 0\nJammu &\nKashmir\n8. Principal GNM School, Akhnoor, 3.75 2019-20 0\n9. Principal GNM School, Shopian, 3.75 2019-20 0\n10. Principal GNM School, Budgam, 3.75 2019-20 0",
+      "is_empty": false,
+      "extraction_status": "ok",
+      "extraction_mode": "default"
+    }
+    ,
+    {
+      "pdf_page": 1300,
+      "text": "_________________________________________________________________________________\nPublished under Rules 379 and 382 of the Rules of Procedure and Conduct of Business\nin Lok Sabha (Seventeenth Edition)\n_________________________________________________________________________________________________",
+      "is_empty": false,
+      "extraction_status": "ok",
+      "extraction_mode": "default"
+    }
+  
+  ],
+  "quality_report":   {
+    "pages_processed": 3,
+    "pages_with_text": 3,
+    "empty_text_pages": [],
+    "extraction_errors": [],
+    "warnings": [],
+    "problem_pages": []
+  }
+}

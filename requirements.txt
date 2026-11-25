@@ -1,6 +1,14 @@
+# Transcript search application
 chromadb>=0.6,<2
 numpy>=1.26,<2
 pandas>=2.2,<3
-sentence-transformers==3.4.1
-torch>=2.2,<3
+scikit-learn>=1.4,<2
+joblib>=1.3,<2
+streamlit>=1.40,<2
 transformers==4.48.3
+
+# PDF preprocessing
+pdfplumber>=0.11,<0.12
+
+# Tests
+pytest>=8,<9

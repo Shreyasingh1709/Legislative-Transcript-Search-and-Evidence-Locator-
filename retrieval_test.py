@@ -1,13 +1,13 @@
-"""Search legislative transcript chunks using BGE-M3 and ChromaDB."""
+"""Search transcript chunks with their configured vectorizer and ChromaDB."""
 
+import json
 from pathlib import Path
 from typing import Any
 
-import chromadb
 import numpy as np
-from sentence_transformers import SentenceTransformer
 
-from embedding import MODEL_NAME
+from embedding import BASE_DIR as EMBEDDING_DIR
+from embedding import MODEL_NAME, TFIDF_MODEL_NAME
 from vector_store import COLLECTION_NAME, DATABASE_DIR
 
 
@@ -18,11 +18,18 @@ def search_transcripts(
     database_dir: Path = DATABASE_DIR,
     collection_name: str = COLLECTION_NAME,
 ) -> list[dict[str, Any]]:
-    """Return semantically relevant chunks together with their attribution."""
+    """Return relevant chunks with page provenance and attribution status."""
     if not isinstance(query, str) or not query.strip():
         raise ValueError("Search query must not be empty.")
     if top_k <= 0:
         raise ValueError("top_k must be greater than zero.")
+
+    try:
+        import chromadb
+    except ImportError as error:
+        raise RuntimeError(
+            "ChromaDB is required for retrieval. Install project requirements first."
+        ) from error
 
     client = chromadb.PersistentClient(path=str(database_dir))
     try:
@@ -37,17 +44,44 @@ def search_transcripts(
     if result_count == 0:
         return []
 
+    manifest_path = EMBEDDING_DIR / "embeddings_manifest.json"
+    with manifest_path.open("r", encoding="utf-8") as manifest_file:
+        manifest = json.load(manifest_file)
+    model_name = manifest.get("model")
     if model is None:
-        model = SentenceTransformer(MODEL_NAME, trust_remote_code=True)
-    query_vector = model.encode(
-        [query],
-        normalize_embeddings=True,
-        show_progress_bar=False,
-        convert_to_numpy=True,
-    )
+        if model_name == TFIDF_MODEL_NAME:
+            import joblib
+
+            vectorizer_file = manifest.get("vectorizer_file")
+            if not isinstance(vectorizer_file, str) or not vectorizer_file:
+                raise ValueError("TF-IDF manifest is missing its vectorizer file.")
+            model = joblib.load(EMBEDDING_DIR / vectorizer_file)
+        elif model_name == MODEL_NAME:
+            try:
+                from sentence_transformers import SentenceTransformer
+            except ImportError as error:
+                raise RuntimeError(
+                    "The indexed vectors use BGE-M3; install sentence-transformers "
+                    "before querying this index."
+                ) from error
+            model = SentenceTransformer(MODEL_NAME, trust_remote_code=True)
+        else:
+            raise ValueError(f"Unsupported embedding model in manifest: {model_name}")
+
+    if model_name == TFIDF_MODEL_NAME:
+        query_vector = model.transform([query]).toarray()
+    else:
+        query_vector = model.encode(
+            [query],
+            normalize_embeddings=True,
+            show_progress_bar=False,
+            convert_to_numpy=True,
+        )
     query_vector = np.asarray(query_vector, dtype=np.float32)
     if query_vector.ndim != 2 or query_vector.shape[0] != 1:
         raise RuntimeError("Embedding model returned an invalid query vector.")
+    if query_vector.shape[1] != manifest.get("dimensions"):
+        raise RuntimeError("Query vector dimensions do not match the embedding manifest.")
 
     result = collection.query(
         query_embeddings=query_vector.tolist(),
@@ -63,13 +97,18 @@ def search_transcripts(
     ):
         hits.append(
             {
+                "chunk_id": metadata.get("chunk_id", ""),
                 "text": document,
                 "speaker": metadata.get("speaker", "Unknown"),
                 "date": metadata.get("document_date", metadata.get("date", "")),
                 "document_id": metadata.get("document_id", ""),
+                "source_file": metadata.get("source_file", ""),
                 "pdf_page": metadata.get("pdf_page"),
                 "printed_page": metadata.get("printed_page"),
                 "record_id": metadata.get("record_id", ""),
+                "attribution_status": metadata.get(
+                    "attribution_status", "unverified"
+                ),
                 "distance": distance,
             }
         )
@@ -77,22 +116,37 @@ def search_transcripts(
 
 
 def main() -> None:
-    query = "Who discussed the difficulties faced by farmers?"
-    results = search_transcripts(query, top_k=3)
-    print(f"Query: {query}\n")
-    if not results:
-        print("No matching transcript statements found.")
-        return
+    import argparse
 
-    for rank, result in enumerate(results, start=1):
-        page = result["printed_page"] or result["pdf_page"] or "not recorded"
-        print(
-            f"{rank}. {result['speaker']} | {result['date']} | "
-            f"{result['document_id']} | page {page} | "
-            f"cosine distance {result['distance']:.4f}"
-        )
-        print(result["text"])
-        print()
+    parser = argparse.ArgumentParser(description="Search indexed Lok Sabha chunks.")
+    parser.add_argument(
+        "--query",
+        action="append",
+        help="Natural-language query; may be supplied more than once.",
+    )
+    parser.add_argument("--top-k", type=int, default=3)
+    args = parser.parse_args()
+    queries = args.query or ["Who discussed the difficulties faced by farmers?"]
+
+    for query in queries:
+        results = search_transcripts(query, top_k=args.top_k)
+        print(f"Query: {query}\n")
+        if not results:
+            print("No matching transcript statements found.\n")
+            continue
+
+        for rank, result in enumerate(results, start=1):
+            page = result["printed_page"] or result["pdf_page"] or "not recorded"
+            print(
+                f"{rank}. {result['speaker']} "
+                f"({result['attribution_status']}) | {result['date']} | "
+                f"{result['document_id']} | {result['source_file']} | "
+                f"PDF page {result['pdf_page'] or 'not recorded'} "
+                f"(printed page {page}) | "
+                f"cosine distance {result['distance']:.4f}"
+            )
+            print(result["text"])
+            print()
 
 
 if __name__ == "__main__":

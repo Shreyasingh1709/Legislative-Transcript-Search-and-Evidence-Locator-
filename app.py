@@ -1,232 +1,183 @@
+"""Streamlit interface for evidence-grounded Lok Sabha transcript search."""
 
-
+import json
+import os
+import time
+from pathlib import Path
+from typing import Any
 
 import streamlit as st
 
-st.set_page_config(
-    page_title="Legislative Evidence Locator",
-    layout="wide"
+from vector_store import COLLECTION_NAME, DATABASE_DIR
+from embedding import MODEL_NAME, TFIDF_MODEL_NAME
+
+
+BASE_DIR = Path(__file__).resolve().parent
+DATASET_PATH = Path(
+    os.environ.get(
+        "ENGLISH_DATASET_PATH",
+        str(
+            BASE_DIR.parent
+            / "Gen AI hackathon"
+            / "data"
+            / "processed"
+            / "english_only_dataset.json"
+        ),
+    )
 )
+CHUNKS_PATH = BASE_DIR / "chunks.json"
+REPORT_PATH = BASE_DIR / "chunking_report.json"
+MANIFEST_PATH = BASE_DIR / "embeddings_manifest.json"
 
-st.markdown("""
-<style>
-.main {
-    background-color: #f5f7fb;
-}
-.block-container {
-    padding-top: 2rem;
-}
-.header-box {
-    background-color: #14213d;
-    padding: 28px;
-    border-radius: 12px;
-    color: white;
-    margin-bottom: 25px;
-}
-.header-box h1 {
-    color: white;
-}
-.header-box p {
-    color: #e0eaff;
-    font-size: 16px;
-}
-</style>
-""", unsafe_allow_html=True)
 
-st.sidebar.title("LEGISLATIVE EVIDENCE LOCATOR")
+def _read_json(path: Path) -> Any:
+    with path.open("r", encoding="utf-8") as input_file:
+        return json.load(input_file)
 
-page = st.sidebar.radio(
-    "MAIN MENU",
-    [
-        "Dashboard",
-        "Document Processing",
-        "Knowledge Base",
-        "Evidence Retrieval",
-        "AI Question Answering",
-        "About Project"
+
+def _collection_count() -> int:
+    if not DATABASE_DIR.exists():
+        return 0
+    try:
+        import chromadb
+    except ImportError:
+        return 0
+    try:
+        client = chromadb.PersistentClient(path=str(DATABASE_DIR))
+        return client.get_collection(name=COLLECTION_NAME).count()
+    except chromadb.errors.NotFoundError:
+        return 0
+
+
+def _show_result(result: dict[str, Any], rank: int) -> None:
+    with st.expander(
+        f"{rank}. {result.get('document_id', 'Source not recorded')} "
+        f"- PDF page {result.get('pdf_page', 'unknown')}"
+    ):
+        st.write(result.get("text", ""))
+        st.caption(
+            f"Source: {result.get('source_file', 'not recorded')} | "
+            f"Date: {result.get('date', 'not recorded')} | "
+            f"Speaker: {result.get('speaker', 'Unknown')} "
+            f"({result.get('attribution_status', 'unverified')})"
+        )
+        st.caption(f"Chunk ID: {result.get('chunk_id', 'not recorded')}")
+        st.caption(
+            f"Cosine distance (lower is closer): "
+            f"{result.get('distance', float('nan')):.4f}"
+        )
+
+
+def main() -> None:
+    st.set_page_config(
+        page_title="Lok Sabha Debate Search and Evidence Locator",
+        layout="wide",
+    )
+    st.title("Lok Sabha Debate Search and Evidence Locator")
+    st.caption(
+        "Search a conservative English-only subset of Lok Sabha debate pages. "
+        "Page-level records do not establish speaker attribution."
+    )
+
+    dataset = {}
+    if DATASET_PATH.is_file():
+        dataset = _read_json(DATASET_PATH)
+    else:
+        st.warning(
+            f"English-only dataset not found at {DATASET_PATH}. "
+            "Set ENGLISH_DATASET_PATH to its location."
+        )
+
+    chunks = _read_json(CHUNKS_PATH) if CHUNKS_PATH.is_file() else []
+    report = _read_json(REPORT_PATH) if REPORT_PATH.is_file() else {}
+    manifest = _read_json(MANIFEST_PATH) if MANIFEST_PATH.is_file() else {}
+    indexed_count = _collection_count()
+    chunk_sizes = [
+        chunk.get("token_count", 0)
+        for chunk in chunks
+        if isinstance(chunk, dict) and isinstance(chunk.get("token_count"), int)
     ]
-)
 
-st.sidebar.divider()
-st.sidebar.write("PS 160 Hackathon Project")
+    retained = dataset.get("retained_record_count", len(dataset.get("pages", [])))
+    uncertain = dataset.get("uncertain_record_count", 0)
+    documents = dataset.get("documents", [])
+    page_count = sum(
+        int(document.get("total_pdf_pages", 0))
+        for document in documents
+        if isinstance(document, dict)
+    )
+    if not page_count:
+        page_count = 2615 if len(documents) == 2 else 0
 
-if page == "Dashboard":
+    metrics = st.columns(4)
+    metrics[0].metric("Source documents", len(documents))
+    metrics[1].metric("Original PDF pages", page_count)
+    metrics[2].metric("Retained English pages", retained)
+    metrics[3].metric("Uncertain records", uncertain)
 
-    st.markdown("""
-    <div class="header-box">
-        <h1>Legislative Transcript Search</h1>
-        <p>AI-Powered Parliamentary Evidence Search and Locator</p>
-        <p>Find parliamentary discussions, speakers and original sources easily.</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.subheader("Project Overview")
-
-    col1, col2, col3, col4 = st.columns(4)
-
-    col1.metric("PDF Documents", "2")
-    col2.metric("Total Pages", "2615")
-    col3.metric("Project Modules", "4")
-    col4.metric("AI Assistant", "Planned")
-
-    st.divider()
-
-    st.subheader("Project Workflow")
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.markdown("### 1. Document Processing")
-        st.write("Extracts and cleans text from Lok Sabha PDF documents.")
-
-        st.markdown("### 2. Knowledge Base")
-        st.write("Creates text chunks, embeddings and a FAISS database.")
-
-    with col2:
-        st.markdown("### 3. Evidence Retrieval")
-        st.write("Finds relevant discussions and checks source information.")
-
-        st.markdown("### 4. AI Question Answering")
-        st.write("Uses retrieved evidence to generate clear answers.")
-
-    st.divider()
-
-    st.subheader("Quick Navigation")
-    st.write("Select a module from the sidebar to explore the application.")
-
-elif page == "Document Processing":
-
-    st.title("Document Processing")
-    st.subheader("Member 1: Document Ingestion and Preprocessing")
-
-    st.write("Upload Lok Sabha parliamentary debate documents.")
-
-    files = st.file_uploader(
-        "Choose PDF documents",
-        type=["pdf"],
-        accept_multiple_files=True
+    stats = st.columns(4)
+    stats[0].metric("Generated chunks", len(chunks))
+    stats[1].metric("Indexed chunks", indexed_count)
+    average_tokens = f"{sum(chunk_sizes) / len(chunk_sizes):.1f}" if chunk_sizes else "-"
+    stats[2].metric("Average chunk tokens", average_tokens)
+    stats[3].metric(
+        "Chunk token range",
+        f"{min(chunk_sizes)}-{max(chunk_sizes)}" if chunk_sizes else "-",
     )
 
-    if files:
-        st.success(str(len(files)) + " PDF documents uploaded.")
+    embedding_name = manifest.get("model", "Not generated")
+    st.caption(f"Retrieval method: {embedding_name} | Vector database: ChromaDB")
+    if embedding_name == TFIDF_MODEL_NAME:
+        st.caption("TF-IDF uses lexical term matching; it is not semantic retrieval.")
+    if report.get("validation_status") == "passed":
+        st.success(
+            f"Chunk validation passed: {report.get('input_record_count', 0)} "
+            f"source pages, {report.get('chunk_count', 0)} chunks."
+        )
+    else:
+        st.warning("No validated chunk report is available yet.")
 
-        for file in files:
-            st.write(file.name)
-
-        st.info("PDF extraction and preprocessing will be connected here.")
-
-    st.divider()
-
-    st.subheader("Preprocessing Tasks")
-
-    st.write("Text Extraction")
-    st.write("Text Cleaning")
-    st.write("Speaker and Date Identification")
-    st.write("Page Number Preservation")
-    st.write("Text Chunking")
-
-elif page == "Knowledge Base":
-
-    st.title("Knowledge Base")
-    st.subheader("Member 2: Chunking, Embeddings and Vector Database")
-
-    col1, col2, col3 = st.columns(3)
-
-    col1.metric("Text Chunks", "Pending")
-    col2.metric("Embeddings", "Pending")
-    col3.metric("FAISS Database", "Not Connected")
-
-    st.divider()
-
-    st.subheader("Knowledge Base Process")
-
-    st.write("1. Divide extracted text into smaller sections.")
-    st.write("2. Convert text sections into numerical embeddings.")
-    st.write("3. Store embeddings in the FAISS vector database.")
-    st.write("4. Make the information searchable.")
-
-    st.warning("Waiting for Member 2 integration.")
-
-elif page == "Evidence Retrieval":
-
-    st.title("Evidence Retrieval")
-    st.subheader("Member 3: RAG Retrieval and Evidence Validation")
-
-    question = st.text_input(
-        "Enter a question to search parliamentary records"
+    st.subheader("Search parliamentary evidence")
+    query = st.text_input(
+        "Natural-language question",
+        placeholder="What evidence discusses support for farmers?",
     )
-
-    if st.button("Search Evidence"):
-
-        if question.strip():
-            st.info("Member 3 retrieval module will be connected here.")
+    if st.button("Search", type="primary"):
+        if not query.strip():
+            st.warning("Enter a question to search.")
+        elif indexed_count == 0:
+            st.error(
+                "Retrieval is not ready: the ChromaDB collection has no "
+                "indexed chunks. Create vectors and the persistent index first."
+            )
+        elif manifest.get("model") not in {MODEL_NAME, TFIDF_MODEL_NAME}:
+            st.error(
+                "The embedding manifest is missing or uses an unsupported method."
+            )
         else:
-            st.warning("Please enter a question.")
+            try:
+                from retrieval_test import search_transcripts
 
-    st.divider()
+                started = time.perf_counter()
+                results = search_transcripts(query, top_k=5)
+                elapsed_ms = (time.perf_counter() - started) * 1000
+                st.caption(
+                    f"Retrieval latency: {elapsed_ms:.1f} ms | "
+                    f"Results returned: {len(results)}"
+                )
+                if results:
+                    for rank, result in enumerate(results, start=1):
+                        _show_result(result, rank)
+                else:
+                    st.info("No matching passages were returned.")
+            except (OSError, RuntimeError, ValueError, ImportError) as error:
+                st.error(f"Search failed: {error}")
 
-    st.subheader("Retrieved Evidence")
-
-    st.write("Original Statement: Waiting for retrieval")
-    st.write("Speaker: Waiting for verification")
-    st.write("Discussion Date: Not available")
-    st.write("Document: Not available")
-    st.write("Page Number: Not available")
-
-elif page == "AI Question Answering":
-
-    st.title("AI Question Answering")
-    st.subheader("Member 4: Frontend and Gemini Integration")
-
-    question = st.text_area(
-        "Enter your question",
-        placeholder="Example: Who raised the issue of generic medicines?"
+    st.info(
+        "Speaker names are not verified in these page-level source records; "
+        "retrieved passages are evidence, not generated answers."
     )
 
-    if st.button("Generate Answer"):
 
-        if question.strip():
-            st.info("Gemini AI integration will be connected here.")
-        else:
-            st.warning("Please enter a question.")
-
-    st.divider()
-
-    st.subheader("Answer and Source Information")
-
-    st.write("AI Answer: Waiting for Gemini integration")
-    st.write("Speaker Name: Waiting for evidence")
-    st.write("Discussion Date: Waiting for evidence")
-    st.write("Original Evidence: Waiting for retrieval")
-    st.write("Document Name: Waiting for evidence")
-    st.write("Page Number: Waiting for evidence")
-
-elif page == "About Project":
-
-    st.title("About Our Project")
-
-    st.subheader("Problem Statement")
-
-    st.write("""
-    Lok Sabha parliamentary proceedings contain extensive discussions,
-    questions, answers and ministerial statements. Finding specific
-    information in lengthy PDF documents is difficult.
-
-    Our project aims to provide a search system that retrieves relevant
-    parliamentary evidence and displays the original statement,
-    speaker name, discussion date and page number.
-    """)
-
-    st.subheader("Technologies Used")
-
-    st.write("Python: Main programming language")
-    st.write("Streamlit: Frontend dashboard")
-    st.write("PyMuPDF: PDF text extraction")
-    st.write("Sentence Transformers: Text embeddings")
-    st.write("FAISS: Similarity search")
-    st.write("RAG: Evidence-based retrieval and generation")
-    st.write("Gemini API: AI answer generation")
-
-st.divider()
-
-st.caption("PS 160 | Legislative Transcript Search and Evidence Locator")
+if __name__ == "__main__":
+    main()

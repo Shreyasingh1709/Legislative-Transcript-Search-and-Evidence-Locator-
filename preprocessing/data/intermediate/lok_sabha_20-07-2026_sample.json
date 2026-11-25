@@ -1,0 +1,46 @@
+{
+  "dataset_name": "Lok Sabha Debate - 20 July 2026",
+  "source_file": "lsd_18_VIII_20-07-2026_original_corrected.pdf",
+  "date": "2026-07-20",
+  "document_type": "Lok Sabha Debate",
+  "extraction_method": "pdfplumber",
+  "ocr_performed": false,
+  "total_pdf_pages": 1315,
+  "extracted_page_count": 3,
+  "selected_pdf_pages": [1, 658, 1315],
+  "layout_pages": [],
+  "pages": [
+    {
+      "pdf_page": 1,
+      "text": "20.07.2026 1\nEighteenth Series, Vol. XVI No. 1 Monday, July 20, 2026\nAshadha 29, 1948 (Saka)\nLOK SABHA DEBATES\n(Original Version)\nEighth Session\n(Eighteenth Lok Sabha)\n(Vol. XVI contains Nos. 1 to 10)\nLOK SABHA SECRETARIAT\nNEW DELHI",
+      "is_empty": false,
+      "extraction_status": "ok",
+      "extraction_mode": "default"
+    }
+    ,
+    {
+      "pdf_page": 658,
+      "text": "20.07.2026 656\nApprentices Engaged\nS No. Sector Name\nunder NAPS-2\n40. Power 83,880\n41. Production and Manufacturing 2,83,183\n42. Retail 3,61,363\n43. Retails and Logistics 3,542\n44. Rubber 1,41,712\n45. Services including Repair and Maintenance 28,958\n46. Sports, Physical Education, Fitness & Leisure 290\n47. Telecom 1,46,894\n48. Textile 70,205\n49. Tourism & Hospitality 1,53,822\nGrand Total 47,50,432\nCOMMENTS OF CBSE\n78. SHRI MATHESWARAN V. S.:\nWill the Minister of EDUCATION be pleased to state:\n(a) whether CBSE Chairman is liable to answer the queries of Parliamentary\nstanding committees or not as CBSE plays role in implementing centrally",
+      "is_empty": false,
+      "extraction_status": "ok",
+      "extraction_mode": "default"
+    }
+    ,
+    {
+      "pdf_page": 1315,
+      "text": "_________________________________________________________________________________\nPublished under Rules 379 and 382 of the Rules of Procedure and Conduct of Business\nin Lok Sabha (Seventeenth Edition)\n_________________________________________________________________________________________________",
+      "is_empty": false,
+      "extraction_status": "ok",
+      "extraction_mode": "default"
+    }
+  
+  ],
+  "quality_report":   {
+    "pages_processed": 3,
+    "pages_with_text": 3,
+    "empty_text_pages": [],
+    "extraction_errors": [],
+    "warnings": [],
+    "problem_pages": []
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "dataset_name": "Lok Sabha Debate - 20 July 2026",
+  "source_file": "lsd_18_VIII_20-07-2026_original_corrected.pdf",
+  "date": "2026-07-20",
+  "document_type": "Lok Sabha Debate",
+  "extraction_method": "pdfplumber",
+  "ocr_performed": false,
+  "total_pdf_pages": 1315,
+  "extracted_page_count": 1,
+  "selected_pdf_pages": [658],
+  "layout_pages": [658],
+  "pages": [
+    {
+      "pdf_page": 658,
+      "text": "                                                                                    \n                                                                                    \n                                                                                    \n          20.07.2026                                                    656         \n                                                                                    \n                                                                                    \n                                                        Apprentices Engaged         \n         S No.               Sector Name                                            \n                                                           under NAPS-2             \n                                                                                    \n                                                                                    \n           40.                  Power                         83,880                \n                                                                                    \n           41.         Production and Manufacturing          2,83,183               \n                                                                                    \n                                                                                    \n           42.                  Retail                       3,61,363               \n                                                                                    \n           43.            Retails and Logistics                3,542                \n                                                                                    \n                                                                                    \n           44.                 Rubber                        1,41,712               \n                                                                                    \n           45.   Services including Repair and Maintenance    28,958                \n                                                                                    \n                                                                                    \n           46.  Sports, Physical Education, Fitness & Leisure  290                  \n                                                                                    \n                                                                                    \n           47.                 Telecom                       1,46,894               \n                                                                                    \n           48.                  Textile                       70,205                \n                                                                                    \n                                                                                    \n           49.            Tourism & Hospitality              1,53,822               \n                                                                                    \n                             Grand Total                     47,50,432              \n                                                                                    \n                                                                                    \n                                                                                    \n                                                                                    \n                                 COMMENTS   OF CBSE                                 \n                                                                                    \n                                                                                    \n          78. SHRI MATHESWARAN  V. S.:                                              \n                                                                                    \n          Will the Minister of EDUCATION be pleased to state:                       \n                                                                                    \n          (a) whether CBSE Chairman is liable to answer the queries of Parliamentary\n                                                                                    \n                                                                                    \n             standing committees or not as CBSE plays role in implementing centrally\n                                                                                    \n                                                                                    \n                                                                                    \n                                                                                    \n                                                                                    \n                                                                                    \n                                                                                    \n                                                                                    ",
+      "is_empty": false,
+      "extraction_status": "ok",
+      "extraction_mode": "layout"
+    }
+  
+  ],
+  "quality_report":   {
+    "pages_processed": 1,
+    "pages_with_text": 1,
+    "empty_text_pages": [],
+    "extraction_errors": [],
+    "warnings": [],
+    "problem_pages": []
+  }
+}

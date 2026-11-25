@@ -1,0 +1,74 @@
+{
+  "dataset_name": "Lok Sabha Debate - 27 March 2026",
+  "source_file": "lsd_18_VII_27-03-2026_original_corrected.pdf",
+  "date": "2026-03-27",
+  "document_type": "Lok Sabha Debate",
+  "extraction_method": "pdfplumber page.extract_text()",
+  "ocr_performed": false,
+  "total_pdf_pages": 1300,
+  "source_extracted_page_count": 1300,
+  "extracted_page_count": 3,
+  "selected_pdf_pages": [
+    13,
+    14,
+    650
+  ],
+  "source_extraction_quality_report": {
+    "pages_processed": 1300,
+    "pages_with_text": 1300,
+    "empty_text_pages": [],
+    "failed_pages": [],
+    "extraction_errors": [],
+    "warnings": [],
+    "problem_pages": []
+  },
+  "cleaning_report": {
+    "pages_processed": 3,
+    "pages_with_text": 3,
+    "pages_with_warnings": 2,
+    "warning_pages": [
+      {
+        "pdf_page": 13,
+        "warnings": [
+          "cid_glyph_placeholder"
+        ]
+      },
+      {
+        "pdf_page": 14,
+        "warnings": [
+          "cid_glyph_placeholder"
+        ]
+      }
+    ]
+  },
+  "pages": [
+    {
+      "pdf_page": 13,
+      "is_empty": false,
+      "extraction_status": "ok",
+      "original_text": "27.03.2026 11\nORAL ANSWERS TO QUESTIONS\n@Starred Question Nos. 481 to 488\nमाननीय अ(cid:197) य(cid:177) : (cid:255)(cid:212) न काल। (cid:255)(cid:212) न सं(cid:180) या 481, (cid:174)ी चंदन चौहान जी।\nजेने(cid:229)रक दवाओ ंके नु(cid:214)ख े\n*481. (cid:174)ी चंदन चौहानः\n(cid:179)या (cid:214)वा(cid:214)(cid:195)य और प(cid:229)रवार क(cid:208)याण मं(cid:253)ी यह बताने क(cid:236) कृपा करग(cid:164) े िकः\n(क) (cid:179)या हमार े देश म(cid:164) िचिक(cid:194)सक आमतौर पर रोिगय(cid:332) के उपचार के िलए मूल दवा (सॉ(cid:208)ट) के नाम\nया जेने(cid:229)रक दवाओ ंके (cid:214)थान पर न(cid:214)ु खे म(cid:164) दवाओ ंके (cid:257)ांड नाम िलखते ह(cid:167) िजसके प(cid:229)रणाम(cid:214)व(cid:322)प\nरोिगय(cid:332) के पास कोई िवक(cid:208)प नह(cid:233) बचता और वे (cid:257)ांडेड कं पिनय(cid:332) क(cid:236) महंगी दवाए ं खरीदन े के िलए\nबा(cid:197)य हो जाते ह(cid:167), यिद हां, तो त(cid:194)संबंधी (cid:202)यौरा (cid:179)या है; और\n(ख) सरकार (cid:300)ारा िचिक(cid:194)सक(cid:332) के िलए (cid:257)ांड वाली दवाओ ं के (cid:214)थान पर जेने(cid:229)रक दवाए ं या मूल दवा\n(सॉ(cid:208)ट) के नाम िलखना अिनवाय(cid:170) बनाने के िलए (cid:179)या ठोस कदम उठाए गए ह(cid:167)/उठाए जाने का\nिवचार है तािक (cid:250)ामीण (cid:177)े(cid:253)(cid:332) म(cid:164) िवशेषकर गरीब और म(cid:197)यम वग(cid:170) के रोिगय(cid:332) को स(cid:214)ती जेने(cid:229)रक\nदवाए ं उपल(cid:202)ध कराई जा सक(cid:164) ?\n(cid:214)वा(cid:214)(cid:195)य और प(cid:229)रवार क(cid:208)याण म(cid:253)ं ालय म(cid:164) रा(cid:186)य म(cid:253)ं ी; तथा रसायन और उव(cid:170)रक म(cid:253)ं ालय म(cid:164)\nरा(cid:186)य म(cid:253)ं ी ((cid:174)ीमती अनुि(cid:255)या पटेल):\n(क) और (ख) : िववरण सभा पटल पर रख िदया गया है।\n@ The sign + marked above the name of a Member indicates that the Question was actually asked on the floor of\nthe House by that Member.",
+      "cleaned_text": "27.03.2026 11\nORAL ANSWERS TO QUESTIONS\n@Starred Question Nos. 481 to 488\nमाननीय अ(cid:197) य(cid:177) : (cid:255)(cid:212) न काल। (cid:255)(cid:212) न सं(cid:180) या 481, (cid:174)ी चंदन चौहान जी।\nजेने(cid:229)रक दवाओ ंके नु(cid:214)ख े\n*481. (cid:174)ी चंदन चौहानः\n(cid:179)या (cid:214)वा(cid:214)(cid:195)य और प(cid:229)रवार क(cid:208)याण मं(cid:253)ी यह बताने क(cid:236) कृपा करग(cid:164) े िकः\n(क) (cid:179)या हमार े देश म(cid:164) िचिक(cid:194)सक आमतौर पर रोिगय(cid:332) के उपचार के िलए मूल दवा (सॉ(cid:208)ट) के नाम\nया जेने(cid:229)रक दवाओ ंके (cid:214)थान पर न(cid:214)ु खे म(cid:164) दवाओ ंके (cid:257)ांड नाम िलखते ह(cid:167) िजसके प(cid:229)रणाम(cid:214)व(cid:322)प\nरोिगय(cid:332) के पास कोई िवक(cid:208)प नह(cid:233) बचता और वे (cid:257)ांडेड कं पिनय(cid:332) क(cid:236) महंगी दवाए ं खरीदन े के िलए\nबा(cid:197)य हो जाते ह(cid:167), यिद हां, तो त(cid:194)संबंधी (cid:202)यौरा (cid:179)या है; और\n(ख) सरकार (cid:300)ारा िचिक(cid:194)सक(cid:332) के िलए (cid:257)ांड वाली दवाओ ं के (cid:214)थान पर जेने(cid:229)रक दवाए ं या मूल दवा\n(सॉ(cid:208)ट) के नाम िलखना अिनवाय(cid:170) बनाने के िलए (cid:179)या ठोस कदम उठाए गए ह(cid:167)/उठाए जाने का\nिवचार है तािक (cid:250)ामीण (cid:177)े(cid:253)(cid:332) म(cid:164) िवशेषकर गरीब और म(cid:197)यम वग(cid:170) के रोिगय(cid:332) को स(cid:214)ती जेने(cid:229)रक\nदवाए ं उपल(cid:202)ध कराई जा सक(cid:164) ?\n(cid:214)वा(cid:214)(cid:195)य और प(cid:229)रवार क(cid:208)याण म(cid:253)ं ालय म(cid:164) रा(cid:186)य म(cid:253)ं ी; तथा रसायन और उव(cid:170)रक म(cid:253)ं ालय म(cid:164)\nरा(cid:186)य म(cid:253)ं ी ((cid:174)ीमती अनुि(cid:255)या पटेल):\n(क) और (ख) : िववरण सभा पटल पर रख िदया गया है।\n@ The sign + marked above the name of a Member indicates that the Question was actually asked on the floor of\nthe House by that Member.",
+      "quality_warnings": [
+        "cid_glyph_placeholder"
+      ]
+    },
+    {
+      "pdf_page": 14,
+      "is_empty": false,
+      "extraction_status": "ok",
+      "original_text": "27.03.2026 12\nिववरण\n(क) और (ख) : भारतीय िचिक(cid:194)सा प(cid:229)रषद (पेशेवर आचरण, िश(cid:310)ाचार एवं नैितकता) िविनयम, 2002\nके खंड 1.5 म(cid:164) यह (cid:255)ावधान है िक (cid:255)(cid:194)येक िचिक(cid:194)सक को दवाओ ंके जेन(cid:229)े रक नाम (cid:214)प(cid:310) (cid:322)प से और\nअिधमानतः बड़े अ(cid:177)र(cid:332) म (cid:164) िलखना चािहए तथा यह सिु नि(cid:306)त करना चािहए िक ि(cid:255)ि(cid:214)(cid:248)(cid:200)शन और दवा\nका उपयोग िववेकस(cid:204)मत हो। इसके अित(cid:229)र(cid:265), (cid:214)वा(cid:214)(cid:195)य सेवाए ं महािनदेशालय न े िदनांक 12.05.2023\nके आदेश (cid:300)ारा िनद(cid:165)श िदया है िक क(cid:164) (cid:254) सरकार के अ(cid:214)पताल(cid:332), सीजीएचएस आरो(cid:181)य क(cid:164) (cid:254)(cid:332) और\nपॉलीि(cid:179)लिनक(cid:332) म(cid:164) काय(cid:170)रत सभी िचिक(cid:194)सक जेने(cid:229)रक दवाए ं िलख(cid:164)।\nरा(cid:213)(cid:367)ीय आयिु व(cid:170)(cid:178)ान आयोग (एनएमसी) अिधिनयम, 2019 रा(cid:186)य िचिक(cid:194)सा प(cid:229)रषद\n(एसएमसी) अथवा एनएमसी के नैितकता एवं िचिक(cid:194)सा पंजीकरण बोड(cid:170) (ईएमआरबी) को िकसी\nपंजीकृत िचिक(cid:194)सा (cid:255)ैि(cid:179)टशनर या पेशेवर (cid:300)ारा िकसी भी पेशेवर या नैितक कदाचार के संबंध म (cid:164)\nअनशु ासना(cid:194)मक कार(cid:170)वाई करन े का अिधकार (cid:255)दान करता है।\n(cid:174)ी चंदन चौहान : ध(cid:198)यवाद अ(cid:197)य(cid:177) जी, म(cid:167) सबसे पहले आदरणीय (cid:255)धान मं(cid:253)ी (cid:174)ी नर(cid:198)े (cid:254) मोदी जी का\nऔर आदरणीय (cid:214)वा(cid:214)(cid:195)य मं(cid:253)ी (cid:174)ी जगत (cid:255)काश नड्डा जी को ध(cid:198)यवाद देना चाहता ह(cid:243)ं, िज(cid:198)ह(cid:332)ने (cid:255)धान\nमं(cid:253)ी जन औषिध योजना से लेकर आयु(cid:213)मान भारत योजना तक कई ऐसी योजनाए ं बनायी ह(cid:167), िजनके\nमा(cid:197)यम स े स(cid:214)ती दवाओ ंऔर बेहतर (cid:214)वा(cid:214)(cid:195)य सिु वधाओ ंको आम जनता तक पह(cid:242)ंचाने का सराहनीय\nकाय(cid:170) िकया है।\nअ(cid:197)य(cid:177) जी, (cid:255)ायः वत(cid:170)मान म(cid:164) देखा जाता है िक िवशेषकर (cid:255)ाइवेट (cid:255)ैि(cid:179)टस करने वाले डॉ(cid:179)टस(cid:170)\nके पच(cid:165) पर (cid:257)ांडेड दवाओ ंके नाम िलखे जाते ह(cid:167), जो अप(cid:177)े ाकृत महंगी होती ह(cid:167), िवशेषकर (cid:250)ामीण आंचल\nसे िजससे मरीज(cid:332) पर अिधक आिथ(cid:170)क बोझ पड़ता है। जब सरकार ने पूर े देश म (cid:164) जन औषिध क(cid:164) (cid:254) खोले\nह(cid:167), लेिकन जब डॉ(cid:179)टस(cid:170) (cid:257)ांडेड दवाओ ंके ही नाम िलख(cid:164)गे, तो मरीज इन क(cid:164) (cid:254)(cid:332) के लाभ कै से ले पाएगं े?\nमहोदय, अगर डॉ(cid:179)टस(cid:170) पच(cid:165) पर दवा के सा(cid:208)ट, कं पोिजशन के नाम िलख(cid:164), तो मरीज(cid:332) के पास",
+      "cleaned_text": "27.03.2026 12\nिववरण\n(क) और (ख) : भारतीय िचिक(cid:194)सा प(cid:229)रषद (पेशेवर आचरण, िश(cid:310)ाचार एवं नैितकता) िविनयम, 2002\nके खंड 1.5 म(cid:164) यह (cid:255)ावधान है िक (cid:255)(cid:194)येक िचिक(cid:194)सक को दवाओ ंके जेन(cid:229)े रक नाम (cid:214)प(cid:310) (cid:322)प से और\nअिधमानतः बड़े अ(cid:177)र(cid:332) म (cid:164) िलखना चािहए तथा यह सिु नि(cid:306)त करना चािहए िक ि(cid:255)ि(cid:214)(cid:248)(cid:200)शन और दवा\nका उपयोग िववेकस(cid:204)मत हो। इसके अित(cid:229)र(cid:265), (cid:214)वा(cid:214)(cid:195)य सेवाए ं महािनदेशालय न े िदनांक 12.05.2023\nके आदेश (cid:300)ारा िनद(cid:165)श िदया है िक क(cid:164) (cid:254) सरकार के अ(cid:214)पताल(cid:332), सीजीएचएस आरो(cid:181)य क(cid:164) (cid:254)(cid:332) और\nपॉलीि(cid:179)लिनक(cid:332) म(cid:164) काय(cid:170)रत सभी िचिक(cid:194)सक जेने(cid:229)रक दवाए ं िलख(cid:164)।\nरा(cid:213)(cid:367)ीय आयिु व(cid:170)(cid:178)ान आयोग (एनएमसी) अिधिनयम, 2019 रा(cid:186)य िचिक(cid:194)सा प(cid:229)रषद\n(एसएमसी) अथवा एनएमसी के नैितकता एवं िचिक(cid:194)सा पंजीकरण बोड(cid:170) (ईएमआरबी) को िकसी\nपंजीकृत िचिक(cid:194)सा (cid:255)ैि(cid:179)टशनर या पेशेवर (cid:300)ारा िकसी भी पेशेवर या नैितक कदाचार के संबंध म (cid:164)\nअनशु ासना(cid:194)मक कार(cid:170)वाई करन े का अिधकार (cid:255)दान करता है।\n(cid:174)ी चंदन चौहान : ध(cid:198)यवाद अ(cid:197)य(cid:177) जी, म(cid:167) सबसे पहले आदरणीय (cid:255)धान मं(cid:253)ी (cid:174)ी नर(cid:198)े (cid:254) मोदी जी का\nऔर आदरणीय (cid:214)वा(cid:214)(cid:195)य मं(cid:253)ी (cid:174)ी जगत (cid:255)काश नड्डा जी को ध(cid:198)यवाद देना चाहता ह(cid:243)ं, िज(cid:198)ह(cid:332)ने (cid:255)धान\nमं(cid:253)ी जन औषिध योजना से लेकर आयु(cid:213)मान भारत योजना तक कई ऐसी योजनाए ं बनायी ह(cid:167), िजनके\nमा(cid:197)यम स े स(cid:214)ती दवाओ ंऔर बेहतर (cid:214)वा(cid:214)(cid:195)य सिु वधाओ ंको आम जनता तक पह(cid:242)ंचाने का सराहनीय\nकाय(cid:170) िकया है।\nअ(cid:197)य(cid:177) जी, (cid:255)ायः वत(cid:170)मान म(cid:164) देखा जाता है िक िवशेषकर (cid:255)ाइवेट (cid:255)ैि(cid:179)टस करने वाले डॉ(cid:179)टस(cid:170)\nके पच(cid:165) पर (cid:257)ांडेड दवाओ ंके नाम िलखे जाते ह(cid:167), जो अप(cid:177)े ाकृत महंगी होती ह(cid:167), िवशेषकर (cid:250)ामीण आंचल\nसे िजससे मरीज(cid:332) पर अिधक आिथ(cid:170)क बोझ पड़ता है। जब सरकार ने पूर े देश म (cid:164) जन औषिध क(cid:164) (cid:254) खोले\nह(cid:167), लेिकन जब डॉ(cid:179)टस(cid:170) (cid:257)ांडेड दवाओ ंके ही नाम िलख(cid:164)गे, तो मरीज इन क(cid:164) (cid:254)(cid:332) के लाभ कै से ले पाएगं े?\nमहोदय, अगर डॉ(cid:179)टस(cid:170) पच(cid:165) पर दवा के सा(cid:208)ट, कं पोिजशन के नाम िलख(cid:164), तो मरीज(cid:332) के पास",
+      "quality_warnings": [
+        "cid_glyph_placeholder"
+      ]
+    },
+    {
+      "pdf_page": 650,
+      "is_empty": false,
+      "extraction_status": "ok",
+      "original_text": "27.03.2026 648\nThe continuation and expansion of the scheme is considered from time\nto time based on its evaluation, emerging healthcare requirements, and\navailability of resources.\nThe details of funds released to the 47 approved Schools of Nursing are\ngiven in the enclosed Statement.\nSTATEMENT\nDetails of Upgradation of School of Nursing into College of Nursing under Central\nSector Scheme of Development of Nursing Services 2020-21 to 2025-26:\nSr State Name of Institute Fund Year UC\nNo. Released (Rs. Received\nin crore) (Rs. in\ncrore)\n1. Manipur 1. GNM Training School Churachandpur, 2.25 2020-21 0\nManipur\n2. GNM training school, thoubal, Manipur 2.19 2022-23 0\n2. Rajasthan 3. SON, Mahatma Gandhi Hospital, 4.18 2018-19 3.24\nJodhpur.\n4. SON, PBM Hospital Bikaner, 1.78 2018-19 3.60\n3. 5. Principal GNM School, Udhampur, 3.75 2019-20 0\n6. Principal GNM School, Pulwama, 3.75 2019-20 0\n7. Principal GNM School, Kulgam, 3.75 2020-21 0\nJammu &\nKashmir\n8. Principal GNM School, Akhnoor, 3.75 2019-20 0\n9. Principal GNM School, Shopian, 3.75 2019-20 0\n10. Principal GNM School, Budgam, 3.75 2019-20 0",
+      "cleaned_text": "27.03.2026 648\nThe continuation and expansion of the scheme is considered from time\nto time based on its evaluation, emerging healthcare requirements, and\navailability of resources.\nThe details of funds released to the 47 approved Schools of Nursing are\ngiven in the enclosed Statement.\nSTATEMENT\nDetails of Upgradation of School of Nursing into College of Nursing under Central\nSector Scheme of Development of Nursing Services 2020-21 to 2025-26:\nSr State Name of Institute Fund Year UC\nNo. Released (Rs. Received\nin crore) (Rs. in\ncrore)\n1. Manipur 1. GNM Training School Churachandpur, 2.25 2020-21 0\nManipur\n2. GNM training school, thoubal, Manipur 2.19 2022-23 0\n2. Rajasthan 3. SON, Mahatma Gandhi Hospital, 4.18 2018-19 3.24\nJodhpur.\n4. SON, PBM Hospital Bikaner, 1.78 2018-19 3.60\n3. 5. Principal GNM School, Udhampur, 3.75 2019-20 0\n6. Principal GNM School, Pulwama, 3.75 2019-20 0\n7. Principal GNM School, Kulgam, 3.75 2020-21 0\nJammu &\nKashmir\n8. Principal GNM School, Akhnoor, 3.75 2019-20 0\n9. Principal GNM School, Shopian, 3.75 2019-20 0\n10. Principal GNM School, Budgam, 3.75 2019-20 0",
+      "quality_warnings": []
+    }
+  ]
+}

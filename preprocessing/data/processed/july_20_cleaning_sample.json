@@ -1,0 +1,74 @@
+{
+  "dataset_name": "Lok Sabha Debate - 20 July 2026",
+  "source_file": "lsd_18_VIII_20-07-2026_original_corrected.pdf",
+  "date": "2026-07-20",
+  "document_type": "Lok Sabha Debate",
+  "extraction_method": "pdfplumber page.extract_text()",
+  "ocr_performed": false,
+  "total_pdf_pages": 1315,
+  "source_extracted_page_count": 1315,
+  "extracted_page_count": 3,
+  "selected_pdf_pages": [
+    44,
+    45,
+    658
+  ],
+  "source_extraction_quality_report": {
+    "pages_processed": 1315,
+    "pages_with_text": 1315,
+    "empty_text_pages": [],
+    "failed_pages": [],
+    "extraction_errors": [],
+    "warnings": [],
+    "problem_pages": []
+  },
+  "cleaning_report": {
+    "pages_processed": 3,
+    "pages_with_text": 3,
+    "pages_with_warnings": 2,
+    "warning_pages": [
+      {
+        "pdf_page": 44,
+        "warnings": [
+          "cid_glyph_placeholder"
+        ]
+      },
+      {
+        "pdf_page": 45,
+        "warnings": [
+          "cid_glyph_placeholder"
+        ]
+      }
+    ]
+  },
+  "pages": [
+    {
+      "pdf_page": 44,
+      "is_empty": false,
+      "extraction_status": "ok",
+      "original_text": "20.07.2026 42\nNATIONAL ANTHEM\nThe National Anthem was played.\n________\n11.01 hrs\nOBITUARY REFERENCES\nमाननीय अ(cid:197)य(cid:177) : माननीय सद(cid:214)यगण, अ(cid:194)यंत द:ु ख के साथ मुझ े सभा को अपने छह पूव(cid:170)\nसािथय(cid:332) एवं कतर के पूव(cid:170) अमीर फादर अमीर महामिहम शेख हमद िबन खलीफा अल थानी के\nिनधन के बार े म(cid:164) सूिचत करना ह ै ।\n(cid:174)ी नादे(cid:198)दला भा(cid:214)कर राव अिवभािजत आ(cid:328)ं (cid:255)देश के ख(cid:204)मम संसदीय िनवा(cid:170)चन (cid:177)े(cid:253), जो\nअब तेलंगाना म(cid:164) ह,ै से 12व(cid:233) लोक सभा के सद(cid:214)य थ े । वे उ(cid:299)ोग संबंधी संसदीय (cid:214)थायी सिमित के\nसद(cid:214)य रहे ।\n(cid:174)ी राव आ(cid:328)ं (cid:255)देश के म(cid:180)ु य म(cid:253)ं ी भी रहे और उ(cid:198)ह(cid:332)ने आ(cid:328)ं (cid:255)देश सरकार म(cid:164) म(cid:253)ं ी के (cid:322)प म(cid:164)\nभी काय(cid:170) िकया ।\n(cid:174)ी नाद(cid:198)े दला भा(cid:214)कर राव का िनधन न(cid:202)ब े वष(cid:170) (90) क(cid:236) आय ु म(cid:164) 22 अ(cid:255)ैल, 2026 को\nहैदराबाद, तेलंगाना म(cid:164) ह(cid:242)आ ।\n(cid:174)ीमती ओमवती देवी उ(cid:176)र (cid:255)देश के िबजनौर संसदीय िनवा(cid:170)चन (cid:177)े(cid:253) स े 12व(cid:233) लोक सभा\nक(cid:236) सद(cid:214)य थ(cid:233) । वे (cid:174)म और क(cid:208)याण संबंधी संसदीय (cid:214)थायी सिमित क(cid:236) सद(cid:214)य रह(cid:233) ।\nइसस े पूव(cid:170) वे चार काय(cid:170)काल(cid:332) के िलए उ(cid:176)र (cid:255)देश िवधान सभा क(cid:236) सद(cid:214)य भी रह(cid:233) और\nउ(cid:198)ह(cid:332)न े उ(cid:176)र (cid:255)देश सरकार म(cid:164) म(cid:253)ं ी के (cid:322)प म (cid:164) भी अपनी सेवाए ं दी ।\n(cid:174)ीमती ओमवती देवी का िनधन सतह(cid:176)र वष(cid:170) (77) क(cid:236) आय ु म(cid:164) 08 मई, 2026 को\nिबजनौर, उ(cid:176)र (cid:255)देश म(cid:164) ह(cid:242)आ ।\n(cid:174)ी सुधांशु सील पि(cid:306)म बंगाल के कोलकाता उ(cid:176)र-पि(cid:306)म संसदीय िनवा(cid:170)चन (cid:177)े(cid:253) स े 14व(cid:233)\nलोक सभा के सद(cid:214)य थ े । वे शहरी िवकास संबंधी संसदीय (cid:214)थायी सिमित के सद(cid:214)य रहे । इसस े",
+      "cleaned_text": "20.07.2026 42\nNATIONAL ANTHEM\nThe National Anthem was played.\n________\n11.01 hrs\nOBITUARY REFERENCES\nमाननीय अ(cid:197)य(cid:177) : माननीय सद(cid:214)यगण, अ(cid:194)यंत द:ु ख के साथ मुझ े सभा को अपने छह पूव(cid:170)\nसािथय(cid:332) एवं कतर के पूव(cid:170) अमीर फादर अमीर महामिहम शेख हमद िबन खलीफा अल थानी के\nिनधन के बार े म(cid:164) सूिचत करना ह ै ।\n(cid:174)ी नादे(cid:198)दला भा(cid:214)कर राव अिवभािजत आ(cid:328)ं (cid:255)देश के ख(cid:204)मम संसदीय िनवा(cid:170)चन (cid:177)े(cid:253), जो\nअब तेलंगाना म(cid:164) ह,ै से 12व(cid:233) लोक सभा के सद(cid:214)य थ े । वे उ(cid:299)ोग संबंधी संसदीय (cid:214)थायी सिमित के\nसद(cid:214)य रहे ।\n(cid:174)ी राव आ(cid:328)ं (cid:255)देश के म(cid:180)ु य म(cid:253)ं ी भी रहे और उ(cid:198)ह(cid:332)ने आ(cid:328)ं (cid:255)देश सरकार म(cid:164) म(cid:253)ं ी के (cid:322)प म(cid:164)\nभी काय(cid:170) िकया ।\n(cid:174)ी नाद(cid:198)े दला भा(cid:214)कर राव का िनधन न(cid:202)ब े वष(cid:170) (90) क(cid:236) आय ु म(cid:164) 22 अ(cid:255)ैल, 2026 को\nहैदराबाद, तेलंगाना म(cid:164) ह(cid:242)आ ।\n(cid:174)ीमती ओमवती देवी उ(cid:176)र (cid:255)देश के िबजनौर संसदीय िनवा(cid:170)चन (cid:177)े(cid:253) स े 12व(cid:233) लोक सभा\nक(cid:236) सद(cid:214)य थ(cid:233) । वे (cid:174)म और क(cid:208)याण संबंधी संसदीय (cid:214)थायी सिमित क(cid:236) सद(cid:214)य रह(cid:233) ।\nइसस े पूव(cid:170) वे चार काय(cid:170)काल(cid:332) के िलए उ(cid:176)र (cid:255)देश िवधान सभा क(cid:236) सद(cid:214)य भी रह(cid:233) और\nउ(cid:198)ह(cid:332)न े उ(cid:176)र (cid:255)देश सरकार म(cid:164) म(cid:253)ं ी के (cid:322)प म (cid:164) भी अपनी सेवाए ं दी ।\n(cid:174)ीमती ओमवती देवी का िनधन सतह(cid:176)र वष(cid:170) (77) क(cid:236) आय ु म(cid:164) 08 मई, 2026 को\nिबजनौर, उ(cid:176)र (cid:255)देश म(cid:164) ह(cid:242)आ ।\n(cid:174)ी सुधांशु सील पि(cid:306)म बंगाल के कोलकाता उ(cid:176)र-पि(cid:306)म संसदीय िनवा(cid:170)चन (cid:177)े(cid:253) स े 14व(cid:233)\nलोक सभा के सद(cid:214)य थ े । वे शहरी िवकास संबंधी संसदीय (cid:214)थायी सिमित के सद(cid:214)य रहे । इसस े",
+      "quality_warnings": [
+        "cid_glyph_placeholder"
+      ]
+    },
+    {
+      "pdf_page": 45,
+      "is_empty": false,
+      "extraction_status": "ok",
+      "original_text": "20.07.2026 43\nपूव(cid:170) वे पि(cid:306)म बंगाल िवधान सभा के सद(cid:214)य भी रहे ।\n(cid:174)ी सधु ांश ु सील जी का िनधन इ(cid:179)यासी वष(cid:170) (81) क(cid:236) आय ु म(cid:164) 14 मई, 2026 को\nकोलकाता, पि(cid:306)म बंगाल म(cid:164) ह(cid:242)आ ।\nमेजर जनरल भुवन च(cid:198)(cid:254) ख(cid:193)डूरी, एवीएसएम, उ(cid:176)राखंड के गढ़वाल संसदीय िनवा(cid:170)चन\n(cid:177)े(cid:253) स े दसव(cid:233), बारहव(cid:233), तेरहव(cid:233), चौदहव(cid:233) और सोलहव(cid:233) लोक सभा के सद(cid:214)य रह े । व े र(cid:177)ा संबंधी\nसंसदीय सिमित तथा िव(cid:176) संबंधी संसदीय सिमित के सभापित रहे तथा कई अ(cid:198)य संसदीय\nसिमितय(cid:332) के सद(cid:214)य भी रहे । उ(cid:198)ह(cid:332)न े सड़क प(cid:229)रवहन और राजमाग(cid:170) म(cid:253)ं ी तथा शहरी िवकास और\nगरीबी उपशमन म(cid:253)ं ी के (cid:322)प म(cid:164) भी अपनी सेवाए ं दी । (cid:174)ी ख(cid:193)डूरी दो बार उ(cid:176)राखंड के म(cid:180)ु य म(cid:253)ं ी\nरहे ।\nमेजर जनरल भवु न च(cid:198)(cid:254) ख(cid:193)डूरी, एवीएसएम का िनधन इ(cid:179)यानव े वष(cid:170) (91) क(cid:236) आय ु म(cid:164) 19\nमई, 2026 को देहरादून, उ(cid:176)राखंड म(cid:164) ह(cid:242)आ ।\n(cid:174)ी के.पी. धनपालन के रल के चालाकंुडी संसदीय िनवा(cid:170)चन (cid:177)े(cid:253) स े 15व(cid:233) लोक सभा के\nसद(cid:214)य थ े । व े वािण(cid:186)य संबंधी संसदीय सिमित के सद(cid:214)य तथा क(cid:204)प यूटर के (cid:255)ावधान संबंधी\nसंसदीय सिमित के सद(cid:214)य भी रहे ।\n(cid:174)ी के .पी. धनपालन का िनधन 76 वष(cid:170) क(cid:236) आय ु म(cid:164) 30 मई, 2026 को एना(cid:170)कुलम, के रल म (cid:164)\nह(cid:242)आ ।\n(cid:174)ी (cid:200)य ार े लाल सखं वार उ(cid:194)त र (cid:255)देश के घाटमपरु संसदीय िनवा(cid:170)चन (cid:177)े(cid:253) स े 13व(cid:233) लोक\nसभा के सद(cid:214)य थ े । इससे पूव(cid:170) वे दो काय(cid:170)काल(cid:332) के िलए उ(cid:194)त र (cid:255)देश िवधान सभा के सद(cid:214)य भी\nरहे ।\n(cid:174)ी (cid:200)य ार े लाल संखवार का िनधन 71 वष(cid:170) क(cid:236) आय ु म(cid:164) 8 जलु ाई, 2025 को िद(cid:208)ल ी म(cid:164)\nह(cid:242)आ ।\nसभा अपने छ: पूव(cid:170) सािथय(cid:332) के िनधन पर गहरा शोक (cid:211)य (cid:179)त करती ह ै और शोक-संत(cid:200)त\nप(cid:229)रवार(cid:332) के (cid:255)ित संवेदना (cid:211) य(cid:179)त करती ह ै ।",
+      "cleaned_text": "20.07.2026 43\nपूव(cid:170) वे पि(cid:306)म बंगाल िवधान सभा के सद(cid:214)य भी रहे ।\n(cid:174)ी सधु ांश ु सील जी का िनधन इ(cid:179)यासी वष(cid:170) (81) क(cid:236) आय ु म(cid:164) 14 मई, 2026 को\nकोलकाता, पि(cid:306)म बंगाल म(cid:164) ह(cid:242)आ ।\nमेजर जनरल भुवन च(cid:198)(cid:254) ख(cid:193)डूरी, एवीएसएम, उ(cid:176)राखंड के गढ़वाल संसदीय िनवा(cid:170)चन\n(cid:177)े(cid:253) स े दसव(cid:233), बारहव(cid:233), तेरहव(cid:233), चौदहव(cid:233) और सोलहव(cid:233) लोक सभा के सद(cid:214)य रह े । व े र(cid:177)ा संबंधी\nसंसदीय सिमित तथा िव(cid:176) संबंधी संसदीय सिमित के सभापित रहे तथा कई अ(cid:198)य संसदीय\nसिमितय(cid:332) के सद(cid:214)य भी रहे । उ(cid:198)ह(cid:332)न े सड़क प(cid:229)रवहन और राजमाग(cid:170) म(cid:253)ं ी तथा शहरी िवकास और\nगरीबी उपशमन म(cid:253)ं ी के (cid:322)प म(cid:164) भी अपनी सेवाए ं दी । (cid:174)ी ख(cid:193)डूरी दो बार उ(cid:176)राखंड के म(cid:180)ु य म(cid:253)ं ी\nरहे ।\nमेजर जनरल भवु न च(cid:198)(cid:254) ख(cid:193)डूरी, एवीएसएम का िनधन इ(cid:179)यानव े वष(cid:170) (91) क(cid:236) आय ु म(cid:164) 19\nमई, 2026 को देहरादून, उ(cid:176)राखंड म(cid:164) ह(cid:242)आ ।\n(cid:174)ी के.पी. धनपालन के रल के चालाकंुडी संसदीय िनवा(cid:170)चन (cid:177)े(cid:253) स े 15व(cid:233) लोक सभा के\nसद(cid:214)य थ े । व े वािण(cid:186)य संबंधी संसदीय सिमित के सद(cid:214)य तथा क(cid:204)प यूटर के (cid:255)ावधान संबंधी\nसंसदीय सिमित के सद(cid:214)य भी रहे ।\n(cid:174)ी के .पी. धनपालन का िनधन 76 वष(cid:170) क(cid:236) आय ु म(cid:164) 30 मई, 2026 को एना(cid:170)कुलम, के रल म (cid:164)\nह(cid:242)आ ।\n(cid:174)ी (cid:200)य ार े लाल सखं वार उ(cid:194)त र (cid:255)देश के घाटमपरु संसदीय िनवा(cid:170)चन (cid:177)े(cid:253) स े 13व(cid:233) लोक\nसभा के सद(cid:214)य थ े । इससे पूव(cid:170) वे दो काय(cid:170)काल(cid:332) के िलए उ(cid:194)त र (cid:255)देश िवधान सभा के सद(cid:214)य भी\nरहे ।\n(cid:174)ी (cid:200)य ार े लाल संखवार का िनधन 71 वष(cid:170) क(cid:236) आय ु म(cid:164) 8 जलु ाई, 2025 को िद(cid:208)ल ी म(cid:164)\nह(cid:242)आ ।\nसभा अपने छ: पूव(cid:170) सािथय(cid:332) के िनधन पर गहरा शोक (cid:211)य (cid:179)त करती ह ै और शोक-संत(cid:200)त\nप(cid:229)रवार(cid:332) के (cid:255)ित संवेदना (cid:211) य(cid:179)त करती ह ै ।",
+      "quality_warnings": [
+        "cid_glyph_placeholder"
+      ]
+    },
+    {
+      "pdf_page": 658,
+      "is_empty": false,
+      "extraction_status": "ok",
+      "original_text": "20.07.2026 656\nApprentices Engaged\nS No. Sector Name\nunder NAPS-2\n40. Power 83,880\n41. Production and Manufacturing 2,83,183\n42. Retail 3,61,363\n43. Retails and Logistics 3,542\n44. Rubber 1,41,712\n45. Services including Repair and Maintenance 28,958\n46. Sports, Physical Education, Fitness & Leisure 290\n47. Telecom 1,46,894\n48. Textile 70,205\n49. Tourism & Hospitality 1,53,822\nGrand Total 47,50,432\nCOMMENTS OF CBSE\n78. SHRI MATHESWARAN V. S.:\nWill the Minister of EDUCATION be pleased to state:\n(a) whether CBSE Chairman is liable to answer the queries of Parliamentary\nstanding committees or not as CBSE plays role in implementing centrally",
+      "cleaned_text": "20.07.2026 656\nApprentices Engaged\nS No. Sector Name\nunder NAPS-2\n40. Power 83,880\n41. Production and Manufacturing 2,83,183\n42. Retail 3,61,363\n43. Retails and Logistics 3,542\n44. Rubber 1,41,712\n45. Services including Repair and Maintenance 28,958\n46. Sports, Physical Education, Fitness & Leisure 290\n47. Telecom 1,46,894\n48. Textile 70,205\n49. Tourism & Hospitality 1,53,822\nGrand Total 47,50,432\nCOMMENTS OF CBSE\n78. SHRI MATHESWARAN V. S.:\nWill the Minister of EDUCATION be pleased to state:\n(a) whether CBSE Chairman is liable to answer the queries of Parliamentary\nstanding committees or not as CBSE plays role in implementing centrally",
+      "quality_warnings": []
+    }
+  ]
+}

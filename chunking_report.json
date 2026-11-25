@@ -1,0 +1,31 @@
+{
+  "input_record_count": 1430,
+  "records_with_chunks": 1430,
+  "records_without_chunks": [],
+  "chunk_count": 1467,
+  "unique_record_ids": true,
+  "unique_chunk_ids": true,
+  "duplicate_chunk_ids": [],
+  "empty_chunk_count": 0,
+  "max_tokens_per_chunk": 499,
+  "chunks_over_max_tokens": 0,
+  "counts_by_document": {
+    "LS_2026_03_27": {
+      "records": 703,
+      "chunks": 710
+    },
+    "LS_2026_07_20": {
+      "records": 727,
+      "chunks": 757
+    }
+  },
+  "validation_errors": [],
+  "model_tokenizer": "BAAI/bge-m3",
+  "target_tokens": 400,
+  "maximum_tokens": 500,
+  "overlap_tokens": 50,
+  "minimum_tokens": 80,
+  "source_path": "C:\\Users\\shrey\\Downloads\\Legislative-Transcript-Search-and-Evidence-Locator\\transcript_records.json",
+  "chunk_output_path": "C:\\Users\\shrey\\Downloads\\Legislative-Transcript-Search-and-Evidence-Locator\\chunks.json",
+  "validation_status": "passed"
+}

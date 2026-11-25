@@ -1,11 +1,12 @@
-"""Persist transcript chunks and BGE-M3 vectors in ChromaDB."""
+"""Persist transcript chunks and vectors in ChromaDB."""
 
 import json
 from pathlib import Path
 from typing import Any
 
-import chromadb
 import numpy as np
+
+from embedding import MODEL_NAME, TFIDF_MODEL_NAME
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -34,19 +35,30 @@ def load_index_inputs(
             "Embedding manifest does not match chunks.json. "
             "Run chunking.py and embedding.py again."
         )
-    if manifest.get("model") != MODEL_NAME:
-        raise ValueError(
-            f"Expected {MODEL_NAME} embeddings; rerun embedding.py."
-        )
+    if manifest.get("model") not in {MODEL_NAME, TFIDF_MODEL_NAME}:
+        raise ValueError("Unsupported embedding model in manifest.")
+    if manifest.get("model") == TFIDF_MODEL_NAME:
+        vectorizer_file = manifest.get("vectorizer_file")
+        if not isinstance(vectorizer_file, str) or not vectorizer_file:
+            raise ValueError("TF-IDF manifest is missing its vectorizer file.")
     if vectors.ndim != 2 or vectors.shape[0] != len(chunks):
         raise ValueError("Embedding matrix rows do not match the chunk count.")
     if vectors.shape[1] != manifest.get("dimensions"):
         raise ValueError("Embedding dimensions do not match the manifest.")
+    if len(set(chunk_ids)) != len(chunk_ids):
+        raise ValueError("chunks.json contains duplicate chunk_id values.")
     for chunk in chunks:
-        if not chunk.get("speaker") or not chunk.get("text"):
-            raise ValueError(
-                f"Chunk {chunk.get('chunk_id')} is missing speaker or text."
-            )
+        required_fields = (
+            "text",
+            "speaker",
+            "attribution_status",
+            "document_id",
+            "source_file",
+            "date",
+            "pdf_page",
+        )
+        if any(chunk.get(field) in (None, "") for field in required_fields):
+            raise ValueError(f"Chunk {chunk.get('chunk_id')} is missing metadata.")
     return chunks, vectors
 
 
@@ -57,6 +69,8 @@ def _chromadb_metadata(chunk: dict[str, Any]) -> dict[str, str | int | float | b
             continue
         if isinstance(value, (str, int, float, bool)):
             metadata[key] = value
+        elif isinstance(value, (dict, list)):
+            metadata[key] = json.dumps(value, ensure_ascii=False, sort_keys=True)
     return metadata
 
 
@@ -68,6 +82,14 @@ def store_chunks(
     batch_size: int = UPSERT_BATCH_SIZE,
 ) -> int:
     """Upsert chunks and explicit embeddings into the persistent collection."""
+    try:
+        import chromadb
+    except ImportError as error:
+        raise RuntimeError(
+            "ChromaDB is required to build the persistent vector store. "
+            "Install project requirements first."
+        ) from error
+
     if batch_size <= 0:
         raise ValueError("batch_size must be greater than zero.")
     if len(chunks) != vectors.shape[0]:
@@ -78,6 +100,14 @@ def store_chunks(
         name=collection_name,
         metadata={"hnsw:space": "cosine"},
     )
+    incoming_ids = {chunk["chunk_id"] for chunk in chunks}
+    existing_ids = set(collection.get(include=[])["ids"])
+    stale_ids = existing_ids.difference(incoming_ids)
+    if stale_ids:
+        raise ValueError(
+            f"ChromaDB collection contains {len(stale_ids)} IDs absent from "
+            "the validated chunks. Refusing to mix stale or sample records."
+        )
 
     for start in range(0, len(chunks), batch_size):
         batch = chunks[start : start + batch_size]
@@ -88,7 +118,13 @@ def store_chunks(
             metadatas=[_chromadb_metadata(chunk) for chunk in batch],
             embeddings=batch_vectors,
         )
-    return collection.count()
+    stored_count = collection.count()
+    if stored_count != len(chunks):
+        raise RuntimeError(
+            f"ChromaDB contains {stored_count} records after upsert; "
+            f"expected {len(chunks)}."
+        )
+    return stored_count
 
 
 def main() -> None:

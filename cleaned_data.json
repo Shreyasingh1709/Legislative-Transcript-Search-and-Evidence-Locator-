@@ -1,0 +1,32 @@
+[
+  {
+    "record_id": "record_001",
+    "document_id": "lok_sabha_2026_07_20",
+    "document_date": "2026-07-20",
+    "speaker": "Shri Rahul",
+    "speaker_turn_id": "turn_001",
+    "section": "Oral Questions",
+    "question_number": "1",
+    "pdf_page": 47,
+    "printed_page": 45,
+    "language": "English",
+    "attribution_status": "verified",
+    "sample_data": true,
+    "text": "Farmers are facing difficulties because of market prices. The government should provide better support to farmers. Better market facilities and financial assistance are necessary."
+  },
+  {
+    "record_id": "record_002",
+    "document_id": "lok_sabha_2026_07_20",
+    "document_date": "2026-07-20",
+    "speaker": "The Minister",
+    "speaker_turn_id": "turn_002",
+    "section": "Oral Questions",
+    "question_number": "1",
+    "pdf_page": 48,
+    "printed_page": 46,
+    "language": "English",
+    "attribution_status": "verified",
+    "sample_data": true,
+    "text": "The government has introduced several schemes for farmers. Financial assistance is also being provided to improve agricultural development."
+  }
+]

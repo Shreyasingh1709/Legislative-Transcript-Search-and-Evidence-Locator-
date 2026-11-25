@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+
+# Generated model vectors and local persistent database.
+embeddings.npy
+embeddings_manifest.json
+lok_sabha_vector_db/
